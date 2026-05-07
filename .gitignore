@@ -1,0 +1,21 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Generated files
+*.stl
+/tmp/
+
+# Environment
+.env
+.python-version
+
+# Claude Code
+.claude/
+
+# OS
+.DS_Store
