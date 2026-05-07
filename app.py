@@ -40,6 +40,9 @@ def generate_stl(
     wall_thickness: float,
     height: float,
     output_size: float,
+    chamfer: float,
+    lip_height: float,
+    lip_width: float,
     detail_level: float,
     pillow: float,
     alpha_threshold: float,
@@ -56,6 +59,9 @@ def generate_stl(
         contour,
         wall_thickness_mm=wall_thickness,
         height_mm=height,
+        chamfer_mm=chamfer,
+        lip_height_mm=lip_height,
+        lip_width_mm=lip_width,
         image_size=(image.width, image.height),
         output_size_mm=output_size,
     )
@@ -115,6 +121,21 @@ with gr.Blocks(title="Cookie Cutter Generator") as demo:
                 label="Cutter Height (mm)",
                 info="How tall the cutter is. 20mm cuts through most dough."
             )
+            chamfer = gr.Slider(
+                minimum=0.0, maximum=10.0, value=3.0, step=0.5,
+                label="Cutting Edge Chamfer (mm)",
+                info="Tapers the bottom inner wall to a sharper cutting edge."
+            )
+            lip_height = gr.Slider(
+                minimum=0.0, maximum=10.0, value=3.0, step=0.5,
+                label="Lip Height (mm)",
+                info="Height of the grip flange at the top."
+            )
+            lip_width = gr.Slider(
+                minimum=0.0, maximum=10.0, value=3.0, step=0.5,
+                label="Lip Width (mm)",
+                info="How far the grip flange extends outward from the wall."
+            )
             output_size = gr.Slider(
                 minimum=40.0, maximum=150.0, value=80.0, step=10.0,
                 label="Max Size (mm)",
@@ -138,7 +159,7 @@ with gr.Blocks(title="Cookie Cutter Generator") as demo:
 
     run_btn.click(
         fn=generate_stl,
-        inputs=[image_input, wall_thickness, height, output_size, detail_level, pillow, alpha_threshold, blur_radius, close_kernel],
+        inputs=[image_input, wall_thickness, height, output_size, chamfer, lip_height, lip_width, detail_level, pillow, alpha_threshold, blur_radius, close_kernel],
         outputs=[contour_preview, stl_output],
     )
 
